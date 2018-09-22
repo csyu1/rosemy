@@ -1,0 +1,6 @@
+- name: Install requirements
+  become: yes
+  become_user: '{{ app_user.username }}'
+  pip:
+    requirements: "{{ src_directory }}/requirements.txt"
+    virtualenv: "{{ venv_directory }}"

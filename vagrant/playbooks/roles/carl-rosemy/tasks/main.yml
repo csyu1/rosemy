@@ -1,6 +1,18 @@
 - name: Update repositories cache
+  become: yes
   apt:
     update_cache: yes
+
+- name: Clone the processing server
+  become: yes
+  become_user: '{{ app_user.username }}'
+  when: git_clone
+  git:
+    repo: 'https://github.com/csyu1/rosemy.git'
+    dest: '{{ app_directory }}'
+    accept_hostkey: yes
+    update: yes
+    force: yes
 
 - name: ensure apps directory is owned by app user
   become: yes
@@ -9,3 +21,4 @@
 
 - include: nginx.yml
 - include: python.yml
+- include: site.yml
