@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/apps/carl-rosemy/src":{"create":true,"guestpath":"/home/vagrant/apps/carl-rosemy/src","hostpath":"/Users/carlyu/Projects/carl_rosemy/src","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/carlyu/Projects/carl_rosemy/vagrant","disabled":false,"__vagrantfile":true}}}

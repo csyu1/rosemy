@@ -1,0 +1,11 @@
+- name: Update repositories cache
+  apt:
+    update_cache: yes
+
+- name: ensure apps directory is owned by app user
+  become: yes
+  command: 'chown -R  {{ app_user.username }}:{{ app_user.username }} {{ apps_directory }}'
+  changed_when: false
+
+- include: nginx.yml
+- include: python.yml

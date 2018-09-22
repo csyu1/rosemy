@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+  <div id="index-banner" class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot scroll-point">
+    </div>
+    <div class="parallax"><img src="{% static 'img/home-background.jpg' %}" alt="Carl Yu Rosemy Baggay background"></div>
+  </div>
+
+  <div class="container">
+    <div class="section scroll-point">
+
+        <div class="row center">
+
+        <div data-aos="fade-zoom-in"
+             data-aos-easing="ease-in-back"
+             data-aos-delay="300"
+             data-aos-offset="0">
+            <div class="col s12 m12">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <h2 class="landing-text">Soon</h2>
+            </div>
+        </div>
+
+        </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section center scroll-point">
+        <div data-aos="fade-zoom-in"
+             data-aos-easing="ease-in-back"
+             data-aos-delay="500"
+             data-aos-offset="0">
+            <div class="col s12 m12">
+                <h3 class="center landing-text valign-wrapper">2019.02.25</h3>
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_css %}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/landing_page.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollify/1.0.19/jquery.scrollify.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript" src="{% static 'js/landing_page.js'%}"></script>
+{% endblock %}
