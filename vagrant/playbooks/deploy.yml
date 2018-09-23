@@ -13,6 +13,11 @@
       update: yes
       force: yes
 
+  - name: ensure apps directory is owned by app user
+    become: yes
+    command: 'chown -R  {{ app_user.username }}:{{ app_user.username }} {{ apps_directory }}'
+    changed_when: false
+
   - name: Create production.py settings file
     become: yes
     template:
@@ -46,6 +51,11 @@
 
   - name: create static_root dir
     file: path={{ static_dir }} state=directory mode=0755
+
+  - name: django migrate
+    shell: |
+      . {{ venv_directory }}/bin/activate
+      ./manage.py migrate --noinput chdir={{ src_directory }}/wedding
 
   - name: django collectstatic
     shell: |

@@ -17,4 +17,4 @@ nginx:
 
 log_directory: '/var/log/{{app_user.username}}/{{ app_name }}'
 
-static_dir: "{{ src_directory }}/static"
+static_dir: "{{ src_directory }}/wedding/static"
