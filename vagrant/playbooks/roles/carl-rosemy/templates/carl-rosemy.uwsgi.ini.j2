@@ -1,0 +1,17 @@
+[uwsgi]
+virtualenv = {{ venv_directory }}
+chdir = {{ src_directory }}/wedding
+env = DJANGO_SETTINGS_MODULE=wedding.settings.production
+env = STATIC_ROOT={{ static_dir }}
+wsgi-file = {{ src_directory }}/wedding/wedding/wsgi.py
+workers = 1
+
+master = true
+processes = 4
+
+socket = /tmp/{{app_name}}.sock
+vacuum = true
+
+logto = {{ log_directory }}/{{app_name}}.uwsgi.logi
+daemonize = {{ log_directory }}/{{app_name}}.uwsgi.log
+pidfile = /tmp/{{app_name}}.pid

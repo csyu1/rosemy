@@ -4,3 +4,12 @@
   pip:
     requirements: "{{ src_directory }}/requirements.txt"
     virtualenv: "{{ venv_directory }}"
+
+- name: Create log directories
+  become: true
+  file:
+    path: '{{ log_directory }}'
+    state: directory
+    owner: "{{app_user.username}}"
+    group: "{{app_user.username}}"
+    mode: 0777

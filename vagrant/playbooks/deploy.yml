@@ -1,0 +1,84 @@
+---
+- hosts: all
+  tasks:
+
+  - name: Clone the processing server
+    become: yes
+    become_user: '{{ app_user.username }}'
+    when: git_clone
+    git:
+      repo: 'https://github.com/csyu1/rosemy.git'
+      dest: '{{ app_directory }}'
+      accept_hostkey: yes
+      update: yes
+      force: yes
+
+  - name: Create production.py settings file
+    become: yes
+    template:
+      src: roles/carl-rosemy/templates/production.py.j2
+      dest: '{{ src_directory }}/wedding/wedding/settings/production.py'    
+
+  - name: Update nginx config file
+    become: yes
+    template:
+      src: roles/carl-rosemy/templates/nginx.conf.j2
+      dest: '/etc/nginx/sites-available/{{ nginx.config_name }}'
+
+  - name: create nginx symlink
+    become: yes
+    file:
+      src: '/etc/nginx/sites-available/{{ nginx.server_name }}'
+      dest: '/etc/nginx/sites-enabled/{{ nginx.server_name }}'
+      state: link
+
+  - name: restart nginx
+    become: yes
+    service:
+      name: nginx
+      state: restarted
+
+  - name: remove the default nginx conf
+    become: yes
+    file:
+      state: absent
+      path: '/etc/nginx/sites-enabled/default'
+
+  - name: create static_root dir
+    file: path={{ static_dir }} state=directory mode=0755
+
+  - name: django collectstatic
+    shell: |
+      . {{ venv_directory }}/bin/activate
+      ./manage.py collectstatic --noinput chdir={{ src_directory }}/wedding
+
+  - name: setup stop scripts
+    become: yes
+    template:
+      src: roles/carl-rosemy/templates/stop.sh.j2
+      dest: '{{ src_directory }}/stop.sh'
+
+  - name: setup start scripts
+    become: yes
+    template:
+      src: roles/carl-rosemy/templates/start.sh.j2
+      dest: '{{ src_directory }}/start.sh'
+
+  - name: setup uwsgi parameters
+    become: yes
+    template:
+      src: roles/carl-rosemy/templates/carl-rosemy.uwsgi.ini.j2
+      dest: '{{ src_directory }}/wedding/{{ app_name }}.ini'
+
+  - name: stop the app
+    become: yes
+    ignore_errors: yes
+    shell: |
+      cd {{src_directory}}
+      bash stop.sh
+
+  - name: start the app
+    become: yes
+    shell: |
+      cd {{src_directory}}
+      bash start.sh
